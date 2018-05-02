@@ -1,0 +1,9 @@
+@import 'variables';
+@import 'index';
+@import 'button';
+@import 'loader';
+
+body {
+    background-color: $tertiary-color;
+    font-family: 'Roboto', sans-serif;
+}
