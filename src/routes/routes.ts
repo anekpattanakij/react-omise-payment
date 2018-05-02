@@ -1,6 +1,7 @@
 import IndexPage from '../modules/index/IndexContainer';
 import ContentPage from '../modules/content/ContentView';
 import MemberPage from '../modules/members/MemberContainer';
+import CreditCardPage from '../modules/creditCard/CreditCardView';
 
 const routeList: Array<object> = [
   {
@@ -17,6 +18,11 @@ const routeList: Array<object> = [
     path: '/members',
     exact: true,
     component: MemberPage,
+  },
+  {
+    path: '/credit',
+    exact: true,
+    component: CreditCardPage,
   },
 ];
 

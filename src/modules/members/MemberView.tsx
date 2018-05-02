@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
 import Member from '../../common/Member';
 import Loader from '../../components/Loader';
 import { Dispatch } from 'redux';
@@ -33,9 +32,6 @@ class MemberViewClass extends React.PureComponent<IMemberProps> {
     const loading: boolean = this.props.loading;
     return (
       <div>
-        <Helmet>
-          <title>Member Page</title>
-        </Helmet>
         {loading && <Loader />}
         This page is getting data from API server.
         {members.map(member => (

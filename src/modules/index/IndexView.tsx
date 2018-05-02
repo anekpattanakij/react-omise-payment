@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
 import Todo from '../../common/Todo';
 import TodoComponent from '../../components/TodoComponent';
 import Button from '../../components/Button';
@@ -32,9 +31,6 @@ const IndexView: React.StatelessComponent<IIndexProps> = ({
   setDone,
 }) => (
   <div>
-    <Helmet>
-      <title>Welcome Page</title>
-    </Helmet>
     <main className="index">
       {loading && <Loader />}
       <ContentView />

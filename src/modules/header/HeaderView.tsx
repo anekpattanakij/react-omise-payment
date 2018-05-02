@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { Config } from '../../config';
