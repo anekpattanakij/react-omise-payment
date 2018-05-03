@@ -4,9 +4,7 @@ import * as _ from 'lodash';
 import { makeAction, isAction } from '../../redux/guards';
 import CreditCard from '../../common/CreditCard';
 
-/* const omise = require('omise')({
-  'publicKey': 'pkey_test_5bb3w73vhixaeo8xslt',
-});*/
+const OMISE_API_URL = 'https://vault.omise.co/tokens';
 
 export const CREDITCARD_INITIAL = 'CREDITCARD_INITIAL';
 export const CREDITCARD_REQUESTING = 'CREDITCARD_REQUESTING';
@@ -19,48 +17,47 @@ export class CreditCardState {
   readonly readyStatus: string = CREDITCARD_INITIAL;
 }
 
-export const loadCreditCardTokenRequesting = makeAction(CREDITCARD_REQUESTING)(() => ({
-  type: CREDITCARD_REQUESTING,
-}));
-export const loadCreditCardTokenSuccess = makeAction(CREDITCARD_SUCCESS)(result => ({
-  type: CREDITCARD_SUCCESS,
-  payload: result.token,
-}));
-export const loadCreditCardTokenFailure = makeAction(CREDITCARD_FAILURE)(error => ({
-  type: CREDITCARD_FAILURE,
-  payload: error,
-}));
+export const loadCreditCardTokenRequesting = makeAction(CREDITCARD_REQUESTING)(
+  () => ({
+    type: CREDITCARD_REQUESTING,
+  }),
+);
+export const loadCreditCardTokenSuccess = makeAction(CREDITCARD_SUCCESS)(
+  result => ({
+    type: CREDITCARD_SUCCESS,
+    payload: result.token,
+  }),
+);
+export const loadCreditCardTokenFailure = makeAction(CREDITCARD_FAILURE)(
+  error => ({
+    type: CREDITCARD_FAILURE,
+    payload: error,
+  }),
+);
 
 export const createCreditCardToken = () => {
-  return (dispatch: Dispatch<any>) => {
-    /*dispatch(loadCreditCardTokenRequesting());
-    omise.tokens.create({
-      'card':{
-        'name': 'JOHN DOE',
-        'city': 'Bangkok',
-        'postal_code': 10320,
-        'number': '4242424242424242',
-        'expiration_month': 2,
-        'expiration_year': 2017,
-        'security_code': 123,
-      },
-    }, (error:any, token:any) => {
-      
-      if(error)
-      {
-        console.log(error);
-      }
-      console.log(token);
-    });
-    */
-    /* omise
-      .get(OMISE_API)
-      .then(result => {
-        dispatch(loadCreditCardTokenSuccess(result));
+  return async (dispatch: Dispatch<any>) => {
+    axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
+    axios.defaults.headers.post['Authorization'] =
+      'Basic YourToken';
+    const data = new FormData();
+    
+    data.append('card[name]', 'Somchai Prasert');
+    data.append('card[number]', '4242424242424242');
+    data.append('card[expiration_month]', '10');
+    data.append('card[expiration_year]', '2018');
+    data.append('card[security_code]', '123');
+
+    axios
+      .post(OMISE_API_URL, data)
+      .then(returnToken => {
+        console.log(returnToken.data.id);
+        dispatch(loadCreditCardTokenSuccess(returnToken));
       })
       .catch(error => {
-        dispatch(loadCreditCardTokenFailure(error));
-      });*/
+        console.log(error.response.data.code);
+        dispatch(loadCreditCardTokenFailure(error.response));
+      });
   };
 };
 
