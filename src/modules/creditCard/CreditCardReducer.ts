@@ -1,11 +1,12 @@
 import { Action, Dispatch } from 'redux';
 import axios from 'axios';
 import * as _ from 'lodash';
-import * as omise from 'omise';
 import { makeAction, isAction } from '../../redux/guards';
 import CreditCard from '../../common/CreditCard';
 
-const OMISE_API = 'https://api.omise.co/tokens';
+/* const omise = require('omise')({
+  'publicKey': 'pkey_test_5bb3w73vhixaeo8xslt',
+});*/
 
 export const CREDITCARD_INITIAL = 'CREDITCARD_INITIAL';
 export const CREDITCARD_REQUESTING = 'CREDITCARD_REQUESTING';
@@ -32,15 +33,34 @@ export const loadCreditCardTokenFailure = makeAction(CREDITCARD_FAILURE)(error =
 
 export const createCreditCardToken = () => {
   return (dispatch: Dispatch<any>) => {
-    dispatch(loadCreditCardTokenRequesting());
-    axios
+    /*dispatch(loadCreditCardTokenRequesting());
+    omise.tokens.create({
+      'card':{
+        'name': 'JOHN DOE',
+        'city': 'Bangkok',
+        'postal_code': 10320,
+        'number': '4242424242424242',
+        'expiration_month': 2,
+        'expiration_year': 2017,
+        'security_code': 123,
+      },
+    }, (error:any, token:any) => {
+      
+      if(error)
+      {
+        console.log(error);
+      }
+      console.log(token);
+    });
+    */
+    /* omise
       .get(OMISE_API)
       .then(result => {
         dispatch(loadCreditCardTokenSuccess(result));
       })
       .catch(error => {
         dispatch(loadCreditCardTokenFailure(error));
-      });
+      });*/
   };
 };
 

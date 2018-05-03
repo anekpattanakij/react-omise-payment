@@ -11,7 +11,7 @@ const composeValidators = (...validators: Array<any>) => (value: any) =>
 
 export default (props: any) => {
   const {
-    loginUser,
+    createCreditCardToken,
     invalid,
     handleSubmit,
     reset,
@@ -20,7 +20,7 @@ export default (props: any) => {
     values,
   } = props;
   const submitCreateTokenUser = (values: any): void => {
-    loginUser(values.email, values.password);
+    createCreditCardToken();
   };
   const required = (value: any) =>
     value ? undefined :'Required';

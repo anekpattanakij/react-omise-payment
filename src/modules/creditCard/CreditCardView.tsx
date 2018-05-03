@@ -1,17 +1,24 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import { Dispatch } from 'redux';
 import CreditCardFormView from './CreditCardFormView';
 
 export interface ICreditCardState {}
 
-export interface ICreditCardDispatch {}
+export interface ICreditCardDispatch {
+  createCreditCardToken(): (dispatch: Dispatch<any>) => any;
+}
 
 export type ICreditCardProps = ICreditCardState & ICreditCardDispatch;
 
-const ContentView: React.StatelessComponent<ICreditCardProps> = () => (
-  <div>
-    <CreditCardFormView {...this.props} />
-  </div>
-);
+class CreditCardViewClass extends React.PureComponent<ICreditCardProps> {
+  render() {
+    return (
+      <div>
+        <CreditCardFormView {...this.props} />
+      </div>
+    );
+  }
+}
 
-export default ContentView;
+export default CreditCardViewClass;

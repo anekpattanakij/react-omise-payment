@@ -1,7 +1,7 @@
 import IndexPage from '../modules/index/IndexContainer';
 import ContentPage from '../modules/content/ContentView';
 import MemberPage from '../modules/members/MemberContainer';
-import CreditCardPage from '../modules/creditCard/CreditCardView';
+import CreditCardPage from '../modules/creditCard/CreditCardContainter';
 
 const routeList: Array<object> = [
   {
