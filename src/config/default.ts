@@ -3,7 +3,7 @@ export class DefaultConfig {
     public static port:string = process.env.PORT;
     public static apiHost:string  = 'http://localhost';
     public static apiPort:string = '3000';
-    public static omisePrivateKey:string = '3000';
+    public static omisePrivateKey:string = '';
 
   }
 

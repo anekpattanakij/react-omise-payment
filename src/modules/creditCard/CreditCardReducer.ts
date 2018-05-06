@@ -1,10 +1,11 @@
 import { Action, Dispatch } from 'redux';
 import axios from 'axios';
-import * as FormData from 'form-data';
 import * as _ from 'lodash';
+import * as FormData from 'form-data';
 import { makeAction, isAction } from '../../redux/guards';
 import CreditCard from '../../common/CreditCard';
 import Error from '../../common/Error';
+import { Config } from '../../config/index';
 
 const OMISE_API_URL = 'https://vault.omise.co/tokens';
 const API_OMISE_CHARGE_TOKEN = 'http://localhost:3000/chargeByToken';
@@ -41,9 +42,6 @@ export const loadCreditCardTokenFailure = makeAction(CREDITCARD_FAILURE)(
 
 export const createCreditCardToken = () => {
   return async (dispatch: Dispatch<any>) => {
-    axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
-    axios.defaults.headers.post['Authorization'] =
-      'Basic cGtleV90ZXN0XzViYjN3NzN2aGl4YWVvOHhzbHQ6IA==';
     const data = new FormData();
 
     data.append('card[name]', 'Somchai Prasert');
@@ -51,26 +49,47 @@ export const createCreditCardToken = () => {
     data.append('card[expiration_month]', '10');
     data.append('card[expiration_year]', '2018');
     data.append('card[security_code]', '123');
-    // Create card T
-    axios
-      .post(OMISE_API_URL, data)
+    // Create card Token
+
+    await axios
+      .post(OMISE_API_URL, data, {
+        auth: {
+          username: Config.omisePrivateKey,
+          password: '',
+        },
+        headers: { 'content-type': 'multipart/form-data' },
+      })
       .then(returnToken => {
         return returnToken.data.id;
       })
       .then(returnToken => {
-        axios.defaults.headers.post['Content-Type'] = 'application/json';
-        axios.post(API_OMISE_CHARGE_TOKEN,{
-          card:returnToken,
-          amount:'100',
-          currency:'THB',
-        }).then(returnResult => {
-          console.log(returnResult);
-          dispatch(loadCreditCardTokenSuccess(returnToken));
-          return;
-        }).catch(error => {
-          console.log(error.response.data.code);
-          dispatch(loadCreditCardTokenFailure(error.response.data));
-        });
+        const data = new FormData();
+
+        data.append('amount', '100');
+        data.append('currency', 'THB');
+        data.append('card', returnToken.data.id);
+
+        axios
+          .post(
+            API_OMISE_CHARGE_TOKEN,
+            {
+              card: returnToken,
+              amount: '100',
+              currency: 'THB',
+            },
+            {
+              headers: { 'content-type': 'application/json' },
+            },
+          )
+          .then(returnResult => {
+            console.log(returnResult);
+            dispatch(loadCreditCardTokenSuccess(returnToken));
+            return;
+          })
+          .catch(error => {
+            console.log(error.response.data.code);
+            dispatch(loadCreditCardTokenFailure(error.response.data));
+          });
       })
       .catch(error => {
         console.log(error.response.data.code);
