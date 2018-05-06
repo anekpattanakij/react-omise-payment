@@ -50,30 +50,27 @@ export const createCreditCardToken = () => {
     data.append('card[expiration_year]', '2018');
     data.append('card[security_code]', '123');
     // Create card Token
-
+    // Config.omisePrivateKey
+    axios.interceptors.request.use(request => {
+      console.log('Starting Request', request);
+      return request;
+    });
     await axios
       .post(OMISE_API_URL, data, {
         auth: {
-          username: Config.omisePrivateKey,
+          username: 'pkey_test_5bb3w73vhixaeo8xslt',
           password: '',
         },
         headers: { 'content-type': 'multipart/form-data' },
       })
       .then(returnToken => {
-        return returnToken.data.id;
-      })
-      .then(returnToken => {
         const data = new FormData();
-
-        data.append('amount', '100');
-        data.append('currency', 'THB');
-        data.append('card', returnToken.data.id);
 
         axios
           .post(
             API_OMISE_CHARGE_TOKEN,
             {
-              card: returnToken,
+              card: returnToken.data.id,
               amount: '100',
               currency: 'THB',
             },
@@ -92,7 +89,7 @@ export const createCreditCardToken = () => {
           });
       })
       .catch(error => {
-        console.log(error.response.data.code);
+        console.log(error);
         dispatch(loadCreditCardTokenFailure(error.response.data));
       });
   };
