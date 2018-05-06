@@ -3,18 +3,7 @@ export class DefaultConfig {
     public static port:string = process.env.PORT;
     public static apiHost:string  = 'http://localhost';
     public static apiPort:string = '3000';
-    
-    public static app:object = {
-      htmlAttributes: { lang: 'en' },
-      title: 'React Cool Starter',
-      titleTemplate: 'React Cool Starter - %s',
-      meta: [
-        {
-          name: 'description',
-          content: 'The best react universal starter boilerplate in the world.',
-        },
-      ],
-    };
+    public static omisePrivateKey:string = '3000';
 
   }
 

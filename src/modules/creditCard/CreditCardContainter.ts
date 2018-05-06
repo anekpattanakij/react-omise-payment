@@ -9,8 +9,7 @@ import CreditCardView, {
 } from './CreditCardView';
 
 const stateToProps = (state: State): ICreditCardState => ({
-  members: state.member.members,
-  loading: state.member.loading,
+  errorList:  state.credit.errorList,
 });
 
 export default connect<ICreditCardState, ICreditCardDispatch, ICreditCardProps>(

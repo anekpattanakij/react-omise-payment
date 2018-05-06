@@ -5,16 +5,14 @@ import Error from '../../common/Error';
 
 export interface IErrorListProps {
   errorList: Array<Error>;
-  t: (x: string) => string;
 }
 
 const ErrorList: React.StatelessComponent<IErrorListProps> = ({
   errorList,
-  t,
 }) => (
   <div>
     {errorList.map(element => (
-      <ErrorItem key={_.uniqueId()} error={element} t={t} />
+      <ErrorItem key={_.uniqueId()} error={element}/>
     ))}
   </div>
 );

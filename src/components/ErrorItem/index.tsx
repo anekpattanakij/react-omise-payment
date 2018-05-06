@@ -3,12 +3,11 @@ import Error from '../../common/Error';
 
 export interface IErrorItemProps {
     readonly error: Error;
-    t: (x: string) => string;
 }
 
-const ErrorItem: React.StatelessComponent<IErrorItemProps> = ({ error, t }) => (
+const ErrorItem: React.StatelessComponent<IErrorItemProps> = ({ error }) => (
     <div>
-    {t(`error.${error.code}`)}
+    {error.code} - {error.message}
   </div>
 );
 
